@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://unpkg.com/vue"></script>
+    <title>Group Work Lessons</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <button class="checkout">Checkout </button>
+        <div id="app">
+            <div class="container">
+                 <div class="card" v-for="lessom in lessons">
+                    <div class="card-image" v-bind:style="{ 'background-image': 'url(' + lesson.image + ')' }"></div>
+                    <div class="card-info">
+                        <div class="card-subject">{{ lesson.subject }}</div>
+                        <div class="card-spaces">Spaces left: {{ lesson.availableSpaces }}</div>
+                        <div class="card-location">{{ lesson.location }}</div>
+                        <div class="card-price">£{{ lesson.price / 100 }}</div>
+                        <button class="addToCart" v-on:click="addToCart" :disabled="isAvailable">Add to cart</button>
+                    </div>
+                </div>
+            
+        </div>
+    </div>
+
+
+
+
+    <script>
+
+        let app = new Vue({
+            el: '#app',
+            data: {
+                cart: [],
+
+                lessons: [
+                    {
+                        id: 1,
+                        subject: 'English',
+                        location: 'London',
+                        image: 'image/english.jpg',
+                        price: 2000,
+                        availableSpaces: 5
+                    },
+                    {
+                        id: 2,
+                        subject: 'Mathamatic',
+                        location: 'London',
+                        image: 'image/mathamatics.jpg',
+                        price: 2500,
+                        availableSpaces: 5
+                    },
+                    {
+                        id: 3,
+                        subject: 'Music',
+                        location: 'London',
+                        image: 'image/music.jpg',
+                        price: 3500,
+                        availableSpaces: 5
+                    },
+                    {
+                        id: 4,
+                        subject: 'Art',
+                        location: 'London',
+                        image: 'image/art.jpg',
+                        price: 1500,
+                        availableSpaces: 5
+                    },
+                    {
+                        id: 5,
+                        subject: 'Drama',
+                        location: 'London',
+                        image: 'image/drama.jpg',
+                        price: 2500,
+                        availableSpaces: 5
+                    }
+                ]
+            },
+            methods: {
+                addToCart() {
+                    let spaces = this.lesson.availableSpaces;
+
+                    if(spaces <= 0) {
+                        alert("No available spaces");
+                    } else {
+                        this.cart.push(this.lesson.id);
+                        this.lesson.availableSpaces -= 1;
+                    }
+                }
+            },
+            computed: {
+                isAvailable() {
+                    return (this.lesson.availableSpaces > 0) ? false : true;
+                }
+            }
+        });
+
+    </script>
+    
+</body>
+</html>
